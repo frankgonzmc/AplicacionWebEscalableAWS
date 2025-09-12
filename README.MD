@@ -87,3 +87,18 @@ El frontend, a su vez, realiza peticiones a una API REST expuesta en otro domini
 El ALB distribuye las peticiones hacia el backend implementado en Amazon ECS con Fargate, el cual se encuentra en una subnet privada. ECS Fargate ejecuta los contenedores de la aplicación Django, y el servicio puede escalar automáticamente el número de tareas según la carga (Auto Scaling).
 Cuando el backend necesita interactuar con la base de datos, se conecta a un Amazon RDS configurado en Multi-AZ, que se encuentra también en subnets privadas (una en cada AZ).
 La base de datos está protegida por un Security Group que solo permite acceso desde el backend, garantizando la seguridad de las comunicaciones internas.
+
+### 3. Justificación:
+Amazon Route 53 es el servicio de DNS de AWS que permite gestionar nombres de dominio y resolverlos hacia diferentes recursos. En este caso, necesito dos dominios: uno para el frontend y otro para el backend. Route 53 me ofrece integración nativa con otros servicios de AWS, lo que lo hace ideal para este escenario.
+
+Amazon S3 es el servicio de almacenamiento óptimo para archivos estáticos como los generados por mi aplicación React (HTML, CSS y JS). S3 me permite servir estos archivos de manera segura, escalable y con alta disponibilidad, sin necesidad de servidores adicionales.
+
+Amazon CloudFront actúa como red de entrega de contenido (CDN), distribuyendo los archivos de mi bucket S3 con baja latencia a usuarios globales. Además de mejorar el rendimiento, incrementa la seguridad al manejar HTTPS y restringir accesos directos al bucket.
+
+Amazon VPC es fundamental para aislar recursos y controlar el tráfico. Al usar subnets públicas y privadas, puedo garantizar que solo los recursos que necesitan acceso directo desde internet (como el ALB) estén expuestos, mientras que el backend y la base de datos se mantienen protegidos en subnets privadas.
+
+Application Load Balancer (ALB) recibe las peticiones HTTP/HTTPS en la subnet pública y las distribuye hacia los contenedores del backend que viven en subnets privadas. Esto asegura seguridad y flexibilidad. Junto con ECS Service Auto Scaling, el backend puede escalar dinámicamente según la carga de trabajo.
+
+Amazon ECS con Fargate me permite desplegar el backend en contenedores sin administrar servidores. Es una solución serverless para contenedores: solo defino la imagen, recursos y políticas de escalado, y AWS gestiona la ejecución.
+
+Amazon RDS Multi-AZ proporciona una base de datos relacional gestionada, con backups automáticos, parches y alta disponibilidad. Al habilitar Multi-AZ, AWS crea automáticamente una réplica en otra zona de disponibilidad y gestiona el failover, lo que garantiza resiliencia y continuidad del servicio.
