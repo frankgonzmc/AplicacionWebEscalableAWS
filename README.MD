@@ -79,3 +79,11 @@ Proponer optimizaciones de costo para la etapa inicial (pocos usuarios).
 
 ### 1. Diagrama de Arquitectura:
 ![Diagrama de arquitectura](img/diagrama.jpg)
+
+### 2. Explicación de Flujo de la Arquitectura:
+Todo empieza cuando el usuario hace una petición a través de un nombre de dominio gestionado en Amazon Route 53.
+Este dominio apunta a Amazon CloudFront, el cual entrega los archivos estáticos almacenados en un bucket de Amazon S3 que contiene la aplicación frontend en React.
+El frontend, a su vez, realiza peticiones a una API REST expuesta en otro dominio gestionado por Route 53, que apunta a un Application Load Balancer (ALB) desplegado en una subnet pública dentro de la VPC.
+El ALB distribuye las peticiones hacia el backend implementado en Amazon ECS con Fargate, el cual se encuentra en una subnet privada. ECS Fargate ejecuta los contenedores de la aplicación Django, y el servicio puede escalar automáticamente el número de tareas según la carga (Auto Scaling).
+Cuando el backend necesita interactuar con la base de datos, se conecta a un Amazon RDS configurado en Multi-AZ, que se encuentra también en subnets privadas (una en cada AZ).
+La base de datos está protegida por un Security Group que solo permite acceso desde el backend, garantizando la seguridad de las comunicaciones internas.
