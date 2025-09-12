@@ -66,3 +66,16 @@ Desplegar automáticamente a ECS.
 Logs en CloudWatch (app + ECS + ALB).
 
 Alarmas en métricas críticas (latencia alta, CPU/RAM, DB).
+
+### Retos
+Diseñar el diagrama de arquitectura con todos los componentes.
+
+Explicar el flujo (desde que un usuario entra a la app hasta que recibe respuesta).
+
+Justificar las decisiones de diseño (ej: por qué Fargate en lugar de EC2, por qué RDS en Multi-AZ, etc.).
+
+Proponer optimizaciones de costo para la etapa inicial (pocos usuarios).
+## Documentación
+
+### 1. Diagrama de Arquitectura:
+![Diagrama de arquitectura](img/diagrama.jpg)
