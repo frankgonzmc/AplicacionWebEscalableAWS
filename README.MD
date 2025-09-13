@@ -107,3 +107,5 @@ Amazon RDS Multi-AZ proporciona una base de datos relacional gestionada, con bac
 
 #### 1. VPC:
 El recurso VPC es donde estrán alojados algunos recursos, en este caso tenemos dos zonas de disponibilidad, cada az tiene dos subnets (pública y privada). Por lo tanto dentro de la VPC tenemos 4 subnets en dos diferentes zonas de disponiblidad. Las subnets públicas necesitan de acceso a internet, por lo cual se configura un Internet Gateway y una tabla de rutas que se asocia a cada subnet pública de las dos zonas de disponibilidad. El código de la infraestructura se encuentra en: /terraform/modules/vpc
+#### 2. Security Groups:
+Para una arquitectura segura debemos implementar las políticas de comunicación entre recursos, empezando por el sg de mi alb que esta en la subnet pública y recibe trafico por HTTP y HTTPS de todo tráfico entrante, este esta en /terraform/modules/security-group-alb.
