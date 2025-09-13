@@ -102,3 +102,8 @@ Application Load Balancer (ALB) recibe las peticiones HTTP/HTTPS en la subnet p�
 Amazon ECS con Fargate me permite desplegar el backend en contenedores sin administrar servidores. Es una solución serverless para contenedores: solo defino la imagen, recursos y políticas de escalado, y AWS gestiona la ejecución.
 
 Amazon RDS Multi-AZ proporciona una base de datos relacional gestionada, con backups automáticos, parches y alta disponibilidad. Al habilitar Multi-AZ, AWS crea automáticamente una réplica en otra zona de disponibilidad y gestiona el failover, lo que garantiza resiliencia y continuidad del servicio.
+
+### 4. Documentación:
+
+#### 1. VPC:
+El recurso VPC es donde estrán alojados algunos recursos, en este caso tenemos dos zonas de disponibilidad, cada az tiene dos subnets (pública y privada). Por lo tanto dentro de la VPC tenemos 4 subnets en dos diferentes zonas de disponiblidad. Las subnets públicas necesitan de acceso a internet, por lo cual se configura un Internet Gateway y una tabla de rutas que se asocia a cada subnet pública de las dos zonas de disponibilidad. El código de la infraestructura se encuentra en: /terraform/modules/vpc
