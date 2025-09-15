@@ -77,3 +77,17 @@ resource "aws_route_table_association" "asociate-route-table-publicsubnet-az2"{
     route_table_id = aws_route_table.my-route-table-subnet-public.id
 }
 
+#OUTPUTS PARA NUESTRA VPC
+output "private_subnet_ids" {
+  value = [
+    aws_subnet.private-subnet-az1.id,
+    aws_subnet.private-subnet-az2.id
+  ]
+}
+
+output "public_subnet_ids" {
+  value = [
+    aws_subnet.public-subnet-az1.id,
+    aws_subnet.public-subnet-az2.id
+  ]
+}
